@@ -11,14 +11,15 @@ You can view, test, or reproduce the complete setup locally or in your own AWS e
 git clone https://github.com/rohanjoshi15/Powerplay-DevopsInternAssignment.git
 cd Powerplay-DevopsInternAssignment
 ```
+---
 
 ## Part 1: EC2 Setup and User Configuration
 
 ### Steps:
 1. **Launch an EC2 Instance**
-   - Type: `t3.micro` (Free Tier) (t2 micro instance is not available in the updated versions)
+   - Type: `t3.micro` (Free Tier, since t2.micro is deprecated)
    - OS: `Ubuntu 22.04`
-   - Key Pair: `devopsintern.pem` RSA
+   - Key Pair: `devopsintern.pem` (RSA)
 
 2. **Connect via SSH**
    ```bash
@@ -44,6 +45,11 @@ cd Powerplay-DevopsInternAssignment
    ```bash
    hostname
    ```
+
+### 📸 Screenshots
+![Add new user](screenshots/add_new_user.png)
+![Change hostname](screenshots/change_hostname.png)
+![SSH into EC2](screenshots/ssh_into_ec2.png)
 
 ---
 
@@ -91,6 +97,10 @@ cd Powerplay-DevopsInternAssignment
 4. **Access webpage**
    - Open: `http://<EC2_PUBLIC_IP>`
 
+### Screenshots
+![HTML Page](screenshots/html_page.png)
+![Page Check](screenshots/page_check.png)
+
 ---
 
 ## Part 3: Monitoring Script and Cron Job
@@ -134,9 +144,9 @@ sudo service cron start
 sudo tail -n 20 /var/log/system_report.log
 ```
 
-### Deliverables
-- Screenshot of cron config file  
-- Screenshot of `/var/log/system_report.log` after two runs
+### Screenshots
+![Report Log](screenshots/report_log.png)
+![Dashboard](screenshots/dashboard.png)
 
 ---
 
@@ -171,5 +181,10 @@ aws logs describe-log-groups --region eu-north-1
 aws logs describe-log-streams --log-group-name /devops/intern-metrics --region eu-north-1
 aws logs get-log-events --log-group-name /devops/intern-metrics --log-stream-name manual-upload-20251029161316 --region eu-north-1 --limit 10
 ```
+
+### Screenshots
+![CloudWatch Log Group](screenshots/cloudwatchloggroup.png)
+![Verification of Upload](screenshots/verification_of_manualupload.png)
+![Logs View](screenshots/Logs.png)
 
 ---
