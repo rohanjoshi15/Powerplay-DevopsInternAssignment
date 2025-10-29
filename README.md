@@ -46,7 +46,7 @@ cd Powerplay-DevopsInternAssignment
    hostname
    ```
 
-### 📸 Screenshots
+### Screenshots
 ![Add new user](screenshots/add_new_user.png)
 ![Change hostname](screenshots/change_hostname.png)
 ![SSH into EC2](screenshots/ssh_into_ec2.png)
@@ -99,6 +99,9 @@ cd Powerplay-DevopsInternAssignment
 
 ### Screenshots
 ![HTML Page](screenshots/html_page.png)
+
+---
+
 ![Page Check](screenshots/page_check.png)
 
 ---
@@ -146,6 +149,9 @@ sudo tail -n 20 /var/log/system_report.log
 
 ### Screenshots
 ![Report Log](screenshots/report_log.png)
+
+---
+
 ![Dashboard](screenshots/dashboard.png)
 
 ---
@@ -184,7 +190,13 @@ aws logs get-log-events --log-group-name /devops/intern-metrics --log-stream-nam
 
 ### Screenshots
 ![CloudWatch Log Group](screenshots/cloudwatchloggroup.png)
+
+---
+
 ![Verification of Upload](screenshots/verification_of_manualupload.png)
+
+---
+
 ![Logs View](screenshots/Logs.png)
 
 ---
