@@ -173,5 +173,3 @@ aws logs get-log-events --log-group-name /devops/intern-metrics --log-stream-nam
 ```
 
 ---
-
-**End of Documentation** 
