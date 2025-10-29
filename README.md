@@ -17,39 +17,61 @@ cd Powerplay-DevopsInternAssignment
 
 ### Steps:
 1. **Launch an EC2 Instance**
+   - I created a free-tier Ubuntu EC2 instance (t3.micro type) from the AWS Management Console.
+   - This forms the base Linux server on
    - Type: `t3.micro` (Free Tier, since t2.micro is deprecated)
    - OS: `Ubuntu 22.04`
    - Key Pair: `devopsintern.pem` (RSA)
 
-2. **Connect via SSH**
+3. **Connect via SSH**
+   - This allowed remote command-line access to the virtual machine hosted on AWS.
+     
    ```bash
    ssh -i /path/to/devopsintern.pem ubuntu@<EC2_PUBLIC_IP>
    ```
 
-3. **Create a new user**
+5. **Create a new user**
+   - This represents a new user
+   - This is a common practice to separate user privileges and track access.
+     
    ```bash
    sudo adduser devops_intern
    ```
 
-4. **Grant sudo access without password**
+7. **Grant sudo access without password**
+   - This ensures that the user can execute administrative commands without repeatedly entering passwords
+     
    ```bash
    echo "devops_intern ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/devops_intern
    ```
 
-5. **Change hostname**
+9. **Change hostname**
+    - The hostname personalization helps identify which environment or user is managing the instance.
+    - This is needed in large teams.
    ```bash
    sudo hostnamectl set-hostname rohan-devops
    ```
 
-6. **Verify changes**
+11. **Verify changes**
    ```bash
    hostname
    ```
 
 ### Screenshots
-![Add new user](screenshots/add_new_user.png)
-![Change hostname](screenshots/change_hostname.png)
+
+- SSH into the EC2 instance with the key pair .
 ![SSH into EC2](screenshots/ssh_into_ec2.png)
+
+---
+
+- Adding new user .
+![Add new user](screenshots/add_new_user.png)
+
+---
+
+- Changing the hostname
+![Change hostname](screenshots/change_hostname.png)
+
 
 ---
 
@@ -57,12 +79,20 @@ cd Powerplay-DevopsInternAssignment
 
 ### Steps:
 1. **Install Nginx**
+   - Nginx was used as a lightweight and fast web server to serve a simple HTML page.
    ```bash
    sudo apt update -y
    sudo apt install nginx -y
    ```
 
-2. **Create HTML page**
+3. **Create HTML page**
+   - The HTML displays:
+   - My name
+   - The EC2 instance ID (fetched from AWS metadata)
+   - The ec2 command fetches the EC2 instance’s unique identifier (Instance ID) from AWS’s Instance Metadata Service (IMDS) and stores it in a shell variable named INSTANCE_ID.
+   - CURL... just returns just the instance ID text string. ( the meta data has alot of items other than just instanceID)
+   - The system uptime
+     
    ```bash
    sudo tee /usr/local/bin/generate_index.sh > /dev/null <<'SH'
    #!/usr/bin/env bash
@@ -88,27 +118,39 @@ cd Powerplay-DevopsInternAssignment
    SH
    ```
 
-3. **Make script executable and run**
+5. **Make script executable and run**
    ```bash
    sudo chmod +x /usr/local/bin/generate_index.sh
    sudo /usr/local/bin/generate_index.sh
    ```
 
-4. **Access webpage**
+6. **Access webpage**
    - Open: `http://<EC2_PUBLIC_IP>`
 
 ### Screenshots
-![HTML Page](screenshots/html_page.png)
 
----
-
+- Checking if page exists before opening the ip
 ![Page Check](screenshots/page_check.png)
 
 ---
 
+- Page (very basic HTML code)
+![HTML Page](screenshots/html_page.png)
+
+---
+
+
+
 ## Part 3: Monitoring Script and Cron Job
 
 ### Script: `/usr/local/bin/system_report.sh`
+- The script /usr/local/bin/system_report.sh collects key system metrics:
+- Current timestamp
+- Uptime
+- CPU, memory, and disk usage
+- Top 3 processes consuming the most CPU
+- The script appends results to /var/log/system_report.log every time it runs.
+
 ```bash
 #!/usr/bin/env bash
 LOGFILE="/var/log/system_report.log"
@@ -123,7 +165,7 @@ DISK_PERC=$(df -h / | awk 'NR==2 {print $5}')
 TOP3=$(ps -eo pid,comm,%cpu --sort=-%cpu | head -n 4 | tail -n 3)
 
 {
-  echo "==== $TIMESTAMP ===="
+  echo "$TIMESTAMP"
   echo "Uptime: $UPTIME"
   echo "CPU Usage (%): $CPU_USAGE"
   echo "Memory Usage (%): $MEM_PERC"
@@ -135,9 +177,15 @@ TOP3=$(ps -eo pid,comm,%cpu --sort=-%cpu | head -n 4 | tail -n 3)
 ```
 
 ### Cron Job: `/etc/cron.d/system_report`
+- Cron is a built-in Linux scheduler that automates repetitive tasks like logging, backups, or monitoring.
+- the STARS represent minutes,hours,days, months, every day of the week (0-6)
+- so here we do */5 because we want only after each 5 minutes.
+- cron is basically used to trigger .sh or any other such files.
+  
 ```bash
 */5 * * * * root /usr/local/bin/system_report.sh
 ```
+- 
 
 ### Commands Used
 ```bash
@@ -148,11 +196,9 @@ sudo tail -n 20 /var/log/system_report.log
 ```
 
 ### Screenshots
+
+- Screenshot of the LOG
 ![Report Log](screenshots/report_log.png)
-
----
-
-![Dashboard](screenshots/dashboard.png)
 
 ---
 
@@ -164,12 +210,15 @@ sudo tail -n 20 /var/log/system_report.log
 - Attached role to EC2 instance
 
 ### Commands Used
+- This log group acts as a centralized storage for log data collected from my EC2 instance.
+- 
 ```bash
 aws logs create-log-group --log-group-name /devops/intern-metrics --region eu-north-1
 aws logs create-log-stream --log-group-name /devops/intern-metrics --log-stream-name manual-upload-20251029161316 --region eu-north-1
 ```
 
 ### Upload Logs to CloudWatch
+- Using the AWS CLI, I converted log lines into JSON format and pushed them to the log stream using:
 ```bash
 EVENTS_JSON="[]"
 while IFS= read -r line; do
@@ -189,14 +238,18 @@ aws logs get-log-events --log-group-name /devops/intern-metrics --log-stream-nam
 ```
 
 ### Screenshots
+
+- Created the cloudwatch group with 
 ![CloudWatch Log Group](screenshots/cloudwatchloggroup.png)
 
 ---
 
+- Verifying that the file is uploaded
 ![Verification of Upload](screenshots/verification_of_manualupload.png)
 
 ---
 
+- Logs view on the cloudwatch
 ![Logs View](screenshots/Logs.png)
 
 ---
