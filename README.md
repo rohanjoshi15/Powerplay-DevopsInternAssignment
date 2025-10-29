@@ -294,17 +294,17 @@ If successful, you’ll see JSON output with your role name.
 
 ### Verify Sender Email
 - Go to **Verified Identities → Create Identity → Email Address**.
-- Enter your **sender email (e.g., rohan.joshi1155@gmail.com)**.
+- Enter your **sender email **.
 - You’ll receive a **verification link** — open it in your mailbox to verify.
 
 ### Verify Recipient Email (Sandbox Mode)
 SES Sandbox only allows emails between verified addresses.  
 Hence, verify **recipient email** too:
-- Add another email (e.g., `rohan.joshi112405@gmail.com`) the same way.
+- Add another email (e.g., `xyz@gmail.com`) the same way.
 - Verify via the email link received.
 
 ### Screenshot:
-![SES Email Verification](screenshots/email_recieved.png)
+
 
 ---
 
