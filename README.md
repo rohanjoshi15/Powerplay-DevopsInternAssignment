@@ -1,4 +1,4 @@
-# DevOps Intern Assignment - Powerplay
+<img width="1846" height="1013" alt="email_recieved" src="https://github.com/user-attachments/assets/e4866cd4-1962-4978-8f05-8fc7877c9783" /># DevOps Intern Assignment - Powerplay
 
 ---
 
@@ -304,7 +304,7 @@ Hence, verify **recipient email** too:
 - Verify via the email link received.
 
 ### Screenshot:
-
+![Email recieved by reciever email address every 5 mins](screenshots/email_recieved.jpeg)
 
 ---
 
