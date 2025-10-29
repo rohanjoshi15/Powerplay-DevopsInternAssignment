@@ -1,4 +1,4 @@
-<img width="1846" height="1013" alt="email_recieved" src="https://github.com/user-attachments/assets/e4866cd4-1962-4978-8f05-8fc7877c9783" /># DevOps Intern Assignment - Powerplay
+# DevOps Intern Assignment - Powerplay
 
 ---
 
@@ -308,9 +308,9 @@ Hence, verify **recipient email** too:
 
 ---
 
-## ⚙️ Part 3: Disk Usage Alert Script
+## Part 3: Disk Usage Alert Script
 
-We’ll create a script that:
+Created a script that:
 1. Checks disk usage every run.
 2. Logs the result to `/var/log/disk_alert.log`.
 3. Sends an **email alert** if disk usage exceeds a threshold.
